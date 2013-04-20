@@ -11,7 +11,10 @@ app.get('/', function(request, response) {
 
 app.post('/ws', function(request, response) {
   response.send('Total webservice!');
-  console.log(request.body);
+  console.log(request.body.checkin.createdAt);
+  console.log(request.body.checkin.user.id);
+  console.log(request.body.checkin.venue.location.lat);
+  console.log(request.body.checkin.venue.location.lng);
 });
 
 var port = process.env.PORT || 5000;

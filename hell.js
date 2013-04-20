@@ -3,13 +3,15 @@ var pg = require('pg');
 
 var app = express();
 app.use(express.logger());
+app.use(express.bodyParser());
 
 app.get('/', function(request, response) {
   response.send('Hello World!');
 });
 
-app.get('/ws', function(request, response) {
+app.post('/ws', function(request, response) {
   response.send('Total webservice!');
+  console.log(request.body);
 });
 
 var port = process.env.PORT || 5000;

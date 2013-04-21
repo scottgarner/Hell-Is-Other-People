@@ -20,13 +20,13 @@ app.get('/', function(request, response) {
 app.post('/ws', function(request, response) {
   response.send('Total webservice!');
  
- console.log(request.body.checkin);
-  console.log(request.body.checkin.id);
+  var checkin = JSON.parse(request.body.checkin);
+  console.log(checkin.id);
 
-  var mod_time = request.body.checkin.createdAt;
-  var user_id = request.body.checkin.user.id;
-  var location_lat = request.body.checkin.venue.location.lat;
-  var location_lng = request.body.checkin.venue.location.lng;
+  var mod_time = checkin.createdAt;
+  var user_id = checkin.user.id;
+  var location_lat = checkin.venue.location.lat;
+  var location_lng = checkin.venue.location.lng;
 
 
   client.query('UPDATE people SET mod_time = to_timestamp($2), location_lat = $3, location_lng = $4 WHERE (user_id = $1);', 

@@ -1,5 +1,7 @@
 var express = require("express");
 var pg = require('pg');
+var request = require('request');
+
 
 var app = express();
 app.use(express.logger());
@@ -21,6 +23,21 @@ app.get('/', function(request, response) {
 app.get('/redirect', function(request, response) {
   var html = "We are friends now.";
   response.send(html);
+
+  var code = req.query["code"];
+  var url = "https://foursquare.com/oauth2/access_token
+    ?client_id=S1ZJDYD1JVMEP5IET2OMBIJ2RDLZJPZ4QTY3EFHSRVLAI3OX
+    &client_secret=QWK54ZSA402ONOJBOMXQ3KOJ1L03SUKOFYNN4T1URCJU12JC
+    &grant_type=authorization_code
+    &redirect_uri=https://hellisotherpeople.herokuapp.com/redirect
+    &code=" + code;
+
+  request(url, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log(body);
+    }
+  })
+
 });
 
 app.get('/privacy', function(request, response) {

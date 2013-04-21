@@ -10,8 +10,6 @@ app.use(express.bodyParser());
 var port = process.env.PORT || 5000;
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/hell'
 
-console.log("Connecting to " + connectionString );
-
 var client = new pg.Client(connectionString);
 client.connect();
 
@@ -46,7 +44,7 @@ function authRequest(code) {
 
   request(url,function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      console.log(body);
+      //console.log(body);
     }
   });
 }
@@ -60,7 +58,6 @@ app.post('/ws', function(request, response) {
   response.send('Total webservice!');
 
   var checkin = JSON.parse(request.body.checkin);
-  console.log(checkin.id);
 
   var mod_time = checkin.createdAt;
   var user_id = checkin.user.id;
@@ -68,10 +65,10 @@ app.post('/ws', function(request, response) {
   var location_lng = checkin.venue.location.lng;
 
 
-  client.query('UPDATE people SET mod_time = to_timestamp($2), location_lat = $3, location_lng = $4 WHERE (user_id = $1);', 
+  client.query('UPDATE people SET mod_time = to_timestamp($2), location_lat = $3, location_lng = $4 WHERE (user_id = md5($1);', 
    [user_id, mod_time, location_lat, location_lng]);
 
-  client.query('INSERT INTO people (user_id, mod_time, location_lat, location_lng) SELECT $1,to_timestamp($2),$3,$4 WHERE NOT EXISTS (SELECT 1 FROM people WHERE user_id = $1);',
+  client.query('INSERT INTO people (user_id, mod_time, location_lat, location_lng) SELECT md5($1),to_timestamp($2),$3,$4 WHERE NOT EXISTS (SELECT 1 FROM people WHERE user_id = md5($1);',
   	[user_id, mod_time, location_lat, location_lng]);
 
 

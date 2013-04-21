@@ -1,10 +1,11 @@
 var express = require("express");
-var pg = require('pg');
+pg = require('pg').native
 
 var app = express();
 app.use(express.logger());
 app.use(express.bodyParser());
 
+var port = process.env.PORT || 5000;
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/hell'
 
 var client = new pg.Client(connectionString);
@@ -32,7 +33,6 @@ app.post('/ws', function(request, response) {
 
 });
 
-var port = process.env.PORT || 5000;
 app.listen(port, function() {
   console.log("Listening on " + port);
 });

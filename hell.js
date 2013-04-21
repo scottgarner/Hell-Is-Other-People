@@ -25,12 +25,12 @@ app.get('/redirect', function(request, response) {
   response.send(html);
 
   var code = req.query["code"];
-  var url = "https://foursquare.com/oauth2/access_token
-    ?client_id=S1ZJDYD1JVMEP5IET2OMBIJ2RDLZJPZ4QTY3EFHSRVLAI3OX
-    &client_secret=QWK54ZSA402ONOJBOMXQ3KOJ1L03SUKOFYNN4T1URCJU12JC
-    &grant_type=authorization_code
-    &redirect_uri=https://hellisotherpeople.herokuapp.com/redirect
-    &code=" + code;
+  var url = "https://foursquare.com/oauth2/access_token"+
+    "?client_id=S1ZJDYD1JVMEP5IET2OMBIJ2RDLZJPZ4QTY3EFHSRVLAI3OX"+
+    "&client_secret=QWK54ZSA402ONOJBOMXQ3KOJ1L03SUKOFYNN4T1URCJU12JC"+
+    "&grant_type=authorization_code"+
+    "&redirect_uri=https://hellisotherpeople.herokuapp.com/redirect"+
+    "&code=" + code;
 
   request(url, function (error, response, body) {
     if (!error && response.statusCode == 200) {

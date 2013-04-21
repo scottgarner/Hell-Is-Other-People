@@ -7,6 +7,10 @@ var app = express();
 app.use(express.logger());
 app.use(express.bodyParser());
 
+app.engine('.html', require('ejs').__express);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'html');
+
 var port = process.env.PORT || 5000;
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/hell'
 
@@ -15,18 +19,17 @@ client.connect();
 
 app.get('/', function(request, response) {
 
-  var url = "https://foursquare.com/oauth2/authenticate"+
-  "?client_id=S1ZJDYD1JVMEP5IET2OMBIJ2RDLZJPZ4QTY3EFHSRVLAI3OX"+
-  "&response_type=code"+
-  "&redirect_uri=https://hellisotherpeople.herokuapp.com/redirect"
+  response.render('index');
 
-  var html = "<a href='"+url+"'><img alt='Foursquare' src='https://playfoursquare.s3.amazonaws.com/press/logo/connect-blue.png'></a>";
-  response.send(html);
+});
+
+app.get('/privacy', function(request, response) {
+  response.render('privacy');
 });
 
 app.get('/redirect', function(request, response) {
-  var html = "We are friends now.";
-  response.send(html);
+  
+  response.render('redirect');
 
   var code = request.query["code"];
   authRequest(code);
@@ -48,11 +51,6 @@ function authRequest(code) {
     }
   });
 }
-
-app.get('/privacy', function(request, response) {
-  var html = "This is an art experiment, so there are risks. That said, I don't store any personally identifying data. I just want to know where people are so I can stay away from them.";
-  response.send(html);
-});
 
 app.post('/ws', function(request, response) {
   response.send('Total webservice!');

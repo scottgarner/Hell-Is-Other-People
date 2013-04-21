@@ -4,7 +4,8 @@
   "dependencies": {
     "pg": "0.6.15",
     "express": "latest",
-    "request": "latest"
+    "request": "latest",
+    "ejs": "latest"
   },
   "engines": {
     "node": "0.10.x",

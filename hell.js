@@ -7,7 +7,7 @@ app.use(express.bodyParser());
 
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/hell'
 
-var client = new pg.Client(process.env.DATABASE_URL);
+var client = new pg.Client(connectionString);
 client.connect();
 
 app.get('/', function(request, response) {

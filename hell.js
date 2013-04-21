@@ -14,7 +14,13 @@ var client = new pg.Client(connectionString);
 client.connect();
 
 app.get('/', function(request, response) {
-  response.send('Hello World!');
+  var html = "<a href='https://foursquare.com/oauth2/authenticate?client_id=S1ZJDYD1JVMEP5IET2OMBIJ2RDLZJPZ4QTY3EFHSRVLAI3OX&response_type=code&redirect_uri=https://hellisotherpeople.herokuapp.com/redirect'><img alt='Foursquare' src='https://playfoursquare.s3.amazonaws.com/press/logo/connect-blue.png'></a>";
+  response.send(html);
+});
+
+app.get('/redirect'), function(request, response) {
+  var html = "We are friends now.";
+  response.send(html);
 });
 
 app.post('/ws', function(request, response) {

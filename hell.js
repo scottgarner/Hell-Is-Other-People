@@ -8,6 +8,8 @@ app.use(express.bodyParser());
 var port = process.env.PORT || 5000;
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/hell'
 
+console.log("Connecting to " + process.env.DATABASE_URL );
+
 var client = new pg.Client(connectionString);
 client.connect();
 

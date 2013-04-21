@@ -18,6 +18,19 @@ body {
 	box-shadow: 2px 2px 6px #000;
 }
 
+#button {
+	border: 1px solid #333;
+	display: inline;
+	padding: 4px;
+	border-radius: 2px;
+	background: #ccc;
+	text-decoration: none;
+}
+
+#button:hover {
+	background: #efefef;
+}
+
 h1 {
 
 	font-size: 1.4em;

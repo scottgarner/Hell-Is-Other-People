@@ -29,6 +29,10 @@ app.get('/privacy', function(request, response) {
   response.render('privacy');
 });
 
+app.get('/about', function(request, response) {
+  response.render('about');
+});
+
 app.get('/redirect', function(request, response) {
   
   response.render('redirect');
@@ -36,6 +40,10 @@ app.get('/redirect', function(request, response) {
   var code = request.query["code"];
   authRequest(code);
 
+});
+
+app.get('/status', function(request, response) {
+  response.send("Everything appears nominal.");
 });
 
 function authRequest(code) {

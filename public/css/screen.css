@@ -14,4 +14,39 @@ body {
 	width: 720px;
 	margin: auto;
 	margin-top: 64px;
+	background: url('https://dl.dropboxusercontent.com/u/4510579/2013/hellisotherpeople/foreground.png');
+	box-shadow: 2px 2px 6px #000;
+}
+
+h1 {
+
+	font-size: 1.4em;
+	font-weight: normal;
+	font-family: Georgia;
+}
+
+h1 a {
+	text-decoration: none;
+}
+
+hr {
+
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);	
+}
+
+a {
+	color: #333;
+}
+
+
+footer {
+	font-size: .8em;
+	text-align: right;
+}
+
+footer a {
+	color: #999;
 }

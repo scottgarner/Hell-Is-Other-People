@@ -1,5 +1,5 @@
 var express = require("express");
-pg = require('pg').native
+pg = require('pg');
 
 var app = express();
 app.use(express.logger());

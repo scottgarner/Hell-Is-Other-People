@@ -32,9 +32,11 @@ app.get('/redirect', function(request, response) {
     "&redirect_uri=https://hellisotherpeople.herokuapp.com/redirect"+
     "&code=" + code;
 
-  request(url, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      console.log(body);
+  console.log(url);
+
+  request(url, function (requestError, reqeustResponse, requestBody) {
+    if (!requestError && reqeustResponse.statusCode == 200) {
+      console.log(requestBody);
     }
   })
 

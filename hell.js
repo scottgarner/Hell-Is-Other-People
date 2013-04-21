@@ -20,6 +20,8 @@ app.get('/', function(request, response) {
 app.post('/ws', function(request, response) {
   response.send('Total webservice!');
  
+  console.log(request.body.checkin);
+
   var mod_time = request.body.checkin.createdAt;
   var user_id = request.body.checkin.user.id;
   var location_lat = request.body.checkin.venue.location.lat;

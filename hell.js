@@ -6,10 +6,12 @@ var request = require('request');
 var app = express();
 app.use(express.logger());
 app.use(express.bodyParser());
+app.use(express.static(__dirname + '/public'));
 
 app.engine('.html', require('ejs').__express);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'html');
+
 
 var port = process.env.PORT || 5000;
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/hell'
@@ -42,7 +44,7 @@ function authRequest(code) {
   "?client_id=S1ZJDYD1JVMEP5IET2OMBIJ2RDLZJPZ4QTY3EFHSRVLAI3OX"+
   "&client_secret=QWK54ZSA402ONOJBOMXQ3KOJ1L03SUKOFYNN4T1URCJU12JC"+
   "&grant_type=authorization_code"+
-  "&redirect_uri=https://hellisotherpeople.herokuapp.com/redirect"+
+  "&redirect_uri=https://hellisotherpeople.herokuapp.com/redirect/"+
   "&code=" + code;
 
   request(url,function (error, response, body) {

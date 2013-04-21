@@ -1,0 +1,17 @@
+body {
+   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+   font-weight: 300;
+   background: #cfcfcf;
+   font-size: 11pt;
+   background: url('https://dl.dropboxusercontent.com/u/4510579/2013/hellisotherpeople/background.png');
+}
+
+#content {
+
+	border-radius: 2px;
+	padding: 4px 12px;
+	background: #efefef;
+	width: 720px;
+	margin: auto;
+	margin-top: 64px;
+}

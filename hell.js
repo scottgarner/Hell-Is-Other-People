@@ -1,5 +1,5 @@
 var express = require("express");
-pg = require('pg');
+var pg = require('pg');
 
 var app = express();
 app.use(express.logger());
@@ -8,7 +8,7 @@ app.use(express.bodyParser());
 var port = process.env.PORT || 5000;
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/hell'
 
-console.log("Connecting to " + process.env.DATABASE_URL );
+console.log("Connecting to " + connectionString );
 
 var client = new pg.Client(connectionString);
 client.connect();

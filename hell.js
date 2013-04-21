@@ -18,8 +18,8 @@ app.get('/', function(request, response) {
   response.send(html);
 });
 
-app.get('/redirect'), function(request, response) {
-  var html = "We are friends now.";
+app.get('/redirect', function(request, response) {
+  var html = "Friends.";
   response.send(html);
 });
 

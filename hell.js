@@ -19,7 +19,12 @@ app.get('/', function(request, response) {
 });
 
 app.get('/redirect', function(request, response) {
-  var html = "Friends.";
+  var html = "We are friends now.";
+  response.send(html);
+});
+
+app.get('/privacy', function(request, response) {
+  var html = "This is an art experiment, so there are risks. That said, I don't store any personally identifying data. I just want to know where people are so I can stay away from them.";
   response.send(html);
 });
 

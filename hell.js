@@ -20,7 +20,7 @@ app.get('/', function(request, response) {
 app.post('/ws', function(request, response) {
   response.send('Total webservice!');
  
-  console.log(request.body.checkin);
+  console.log(request.body.checkin.user);
 
   var mod_time = request.body.checkin.createdAt;
   var user_id = request.body.checkin.user.id;

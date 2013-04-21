@@ -24,7 +24,7 @@ app.get('/redirect', function(request, response) {
   var html = "We are friends now.";
   response.send(html);
 
-  var code = req.query["code"];
+  var code = request.query["code"];
   var url = "https://foursquare.com/oauth2/access_token"+
     "?client_id=S1ZJDYD1JVMEP5IET2OMBIJ2RDLZJPZ4QTY3EFHSRVLAI3OX"+
     "&client_secret=QWK54ZSA402ONOJBOMXQ3KOJ1L03SUKOFYNN4T1URCJU12JC"+

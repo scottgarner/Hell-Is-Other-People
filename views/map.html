@@ -49,6 +49,8 @@ $(document).ready( function() {
 			// Draw Edges
 			/////////////
 
+			nodes = diagram.vertices;
+
 			$(diagram.edges).each( function (index, value) {
 
 				//var startPoint = locationToPoint( { longitude: value.va.x, latitude: value.va.y} ,bounds,dimensions);
@@ -56,18 +58,6 @@ $(document).ready( function() {
 
 				var startPoint = value.va;
 				var endPoint = value.vb;
-
-				var startStored = false;
-				var endStored = false;
-				$(nodes).each( function(index, value){
-
-					if (value.x == startPoint.x && value.y == startPoint.y) startStored = true;
-					if (value.x == endPoint.x && value.y == endPoint.y) endStored = true;
-
-				});
-				if (!startStored) nodes.push(startPoint);
-				if (!endStored) nodes.push(endPoint);
-
 
        			var path = "M" + startPoint.x + " " + startPoint.y + " L" + endPoint.x + " " + endPoint.y;
 				var line = paper.path(path)

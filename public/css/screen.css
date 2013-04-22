@@ -32,9 +32,11 @@ body {
 }
 
 #map {
-	margin: auto;
 	position: relative;
-	width: 268px;
+	width: 400px;
+	height: 745px;
+	float: left;
+	margin-right: 12px;
 }
 
 #mapImage {
@@ -45,6 +47,10 @@ body {
 	position:absolute;
 	top:0;
 	left: 0;
+}
+
+#locations {
+	height: 745px;
 }
 
 h1 {

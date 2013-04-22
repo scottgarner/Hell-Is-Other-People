@@ -4,82 +4,139 @@
 
 $(document).ready( function() {
 
-
-	var bounds = [
-		{x:40.682949,y:-74.047852},
-		{x:40.881989,y:-73.906693}
-	];
+	// 12589342
+	// -74.047852, 40.682949, -73.906693 , 40.881989
 
 	var mapContext = $('#mapCanvas')[0].getContext('2d');
+
+	var bounds = {n:40.682949,w:-74.047852,s:40.881989,e:-73.906693};
+	var dimensions = {width: mapContext.canvas.width, height: mapContext.canvas.height};
+	var radius = 4;
 
 	$.ajax({
 		url: '/json/',
 		success: function(data) {
 			console.log(data);
 
+			var voronoi = new Voronoi();
+  			var bbox = {xl:0,xr:dimensions.width,yt:0,yb:dimensions.height};
+  			//var bbox = {xl:bounds.w,xr:bounds.e,yt:bounds.n,yb:bounds.s};
+			var vertices = [];
+
 			$(data).each(function(index,value) {	
 
+				var location = {latitude: value.location_lat, longitude: value.location_lng}
+				var point = locationToPoint( location, bounds, dimensions);
 
-				// 12589342
-				// -74.047852, 40.682949, -73.906693 , 40.881989
+				vertices.push({x:point.x, y: point.y})
+				//vertices.push({y:location.latitude, x: location.longitude});
 
-				var imageNorthLat=bounds[0].x;
-				var imageSouthLat=bounds[1].x
-
-				var imageWestLong=bounds[0].y;
-				var imageEastLong=bounds[1].y;
-
-				var imageLongPixels = mapContext.canvas.width;
-				var imageLatPixels = mapContext.canvas.height;
-
-				var pixelsPerLat=imageLatPixels/(imageNorthLat-imageSouthLat);
-				var pixelsPerLong=imageLongPixels/(imageEastLong-imageWestLong);
-
-				var x = (value.location_lng-imageWestLong)*pixelsPerLong;
-				var y = imageLatPixels + (value.location_lat-imageNorthLat)*pixelsPerLat;
-
-
-				console.log(x + "," + y);
-
-
-		      mapContext.beginPath();
-		      mapContext.arc(x-4, y-4, 4, 0, 2 * Math.PI, false);
-		      mapContext.fillStyle = '#6699cc';
-		      mapContext.fill();
-		      mapContext.lineWidth = .1;
-		      mapContext.strokeStyle = '#003300';
-		      mapContext.stroke();				
+				mapContext.beginPath();
+				mapContext.arc(point.x, point.y, radius, 0, 2 * Math.PI, false);
+				mapContext.fillStyle = '#F6B83C';
+				mapContext.fill();
 
 			})
 
+			var diagram = voronoi.compute(vertices, bbox);
+
+			console.log(diagram);
+
+			var nodes =  [];
+			$(diagram.edges).each( function (index, value) {
+
+				//var startPoint = locationToPoint( { longitude: value.va.x, latitude: value.va.y} ,bounds,dimensions);
+				//var endPoint = locationToPoint( { longitude: value.vb.x, latitude: value.vb.y} ,bounds,dimensions);
+
+				var startPoint = value.va;
+				var endPoint = value.vb;
+
+				var startStored = false;
+				var endStored = false;
+				$(nodes).each( function(index, value){
+
+					if (value.x == startPoint.x && value.y == startPoint.y) startStored = true;
+					if (value.x == endPoint.x && value.y == endPoint.y) endStored = true;
+
+				});
+				if (!startStored) nodes.push(startPoint);
+				if (!endStored) nodes.push(endPoint);
+
+				mapContext.beginPath();
+       			mapContext.moveTo(startPoint.x,startPoint.y);
+       			mapContext.lineTo(endPoint.x,endPoint.y);
+       			mapContext.strokeStyle = '#99ccff';
+       			mapContext.lineWidth = 1.5;
+       			mapContext.stroke();
+			});
+
+			console.log(nodes);
+
+			// Draw Nodes
+			/////////////
+
+			var locationCount = 0;
+
+			$(nodes).each( function(index, value){
+
+				if (value.x != 0 && value.x != dimensions.width && value.y != 0 && value.y != dimensions.height) {
+
+					mapContext.beginPath();
+					mapContext.arc(value.x, value.y, radius, 0, 2 * Math.PI, false);
+					mapContext.fillStyle = '#B1F317';
+					mapContext.fill();
+
+					var location = pointToLocation(value, bounds, dimensions);
+
+					var link = $('<a/>')
+						.text("Location " + locationCount++)
+						.attr('href', "http://maps.google.com/?q=" + location.latitude + "," + location.longitude);
+					$("#locations").append(link).append($("<br/>"));
+				}
+
+			});
+
+
+			
 
 		}
 	});
 
 });
 
-function asinh (arg) {
-  // http://kevin.vanzonneveld.net
-  // +   original by: Onno Marsman
-  // *     example 1: asinh(8723321.4);
-  // *     returns 1: 16.67465779841863
-  return Math.log(arg + Math.sqrt(arg * arg + 1));
+
+function locationToPoint (location, bounds, dimensions) {
+
+	var pixelsPerLat = dimensions.height/(bounds.n-bounds.s);
+	var pixelsPerLong = dimensions.width/(bounds.e-bounds.w);
+
+	var x = (location.longitude-bounds.w)*pixelsPerLong;
+	var y = dimensions.height + (location.latitude-bounds.n)*pixelsPerLat;
+
+	return {x: x, y: y}
 }
 
-function deg2rad (angle) {
-  // http://kevin.vanzonneveld.net
-  // +   original by: Enrique Gonzalez
-  // +     improved by: Thomas Grainger (http://graingert.co.uk)
-  // *     example 1: deg2rad(45);
-  // *     returns 1: 0.7853981633974483
-  return (angle / 180) * Math.PI;
+function pointToLocation(point, bounds, dimensions) {
+
+	var latPerPixel = (bounds.n-bounds.s) / dimensions.height;
+	var longPerPixel = (bounds.e-bounds.w) / dimensions.width;
+
+	var longitude = (point.x * longPerPixel) + bounds.w;
+	var latitude = ((point.y - dimensions.height) * latPerPixel) + bounds.n;
+
+	return {latitude: latitude, longitude: longitude};
+
 }
 
 </script>
 
 <div id="map">
-<img id="mapImage" src="https://dl.dropboxusercontent.com/u/4510579/2013/hellisotherpeople/map.png" width="268" height="499"/>
-<canvas id="mapCanvas" width="268" height="499"/>
+<img id="mapImage" src="https://dl.dropboxusercontent.com/u/4510579/2013/hellisotherpeople/map.png" width="400" height="745"/>
+<canvas id="mapCanvas" width="400" height="745"/>
+</div>
+
+<div id="locations">
+
 </div>
 
 <% include footer.html %>

@@ -6,10 +6,18 @@
 
 <p>The title comes from an existentialist play by Jean-Paul Sartre entitled <a href="http://en.wikipedia.org/wiki/No_Exit"><em>No Exit</em></a>.</p>
 
+<h2>The Backend</h2>
+
+<p>This project was developed using the <a href="http://expressjs.com/">Express</a> web application framework for <a href="http://nodejs.org/">Node.js</a> and is hosted on the <a href="https://www.heroku.com/">Heroku</a> cloud application platform. It is powered by <a href="http://foursquare.com/">FourSquare</a>'s <a href="https://developer.foursquare.com/overview/realtime/">Real-Time API</a>.
+
 <h2>The Math</h2>
 
 <p>The locations given to avoid other users are calculated by generating a <a href="http://en.wikipedia.org/wiki/Voronoi_diagram">Voronoi diagram</a> with user check-ins as seeds. Since Voronoi nodes are points equidistant to three or more sites, they work as a straightfoward way to find new points optimially distanced from the original set.</p>
 
-<p>I'm certain that mathematicians out there are cringing at that description, but it works for my needs. The Voronoi diagrame is generated using a <a href="https://github.com/gorhill/Javascript-Voronoi"javascript library</a> by <a href="http://www.raymondhill.net">Raymond Hill</a>.</p>
+<p>I'm certain that mathematicians out there are cringing at that description, but it works for my needs. The Voronoi diagram is generated using a <a href="https://github.com/gorhill/Javascript-Voronoi">javascript library</a> by <a href="http://www.raymondhill.net">Raymond Hill</a>.</p>
+
+<h2>Thanks</h2>
+
+<p>This project was concieved as a final for <a href="http://jamesgeorge.org/">James George</a>'s Emerging Processes in Video Art at <a href="http://itp.nyu.edu/">ITP</a>.
 
 <% include footer.html %>

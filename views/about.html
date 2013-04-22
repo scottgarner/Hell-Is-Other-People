@@ -10,6 +10,10 @@
 
 <p>This project was developed using the <a href="http://expressjs.com/">Express</a> web application framework for <a href="http://nodejs.org/">Node.js</a> and is hosted on the <a href="https://www.heroku.com/">Heroku</a> cloud application platform. It is powered by <a href="http://foursquare.com/">FourSquare</a>'s <a href="https://developer.foursquare.com/overview/realtime/">Real-Time API</a>.
 
+<h2>The Map</h2>
+
+<p>The map boundaries were chosen based on the <a href="http://en.wikipedia.org/wiki/WOEID">WOEID</a> of <a href="http://sigizmund.info/woeidinfo/?woeid=12589342">Manhattan</a>. The image was generated using <a href="http://mapbox.com/tilemill/">TileMill</a> and freely availble data. The vector overlay is generated in-browser using <a href="http://raphaeljs.com">Raphaël</a>.
+
 <h2>The Math</h2>
 
 <p>The locations given to avoid other users are calculated by generating a <a href="http://en.wikipedia.org/wiki/Voronoi_diagram">Voronoi diagram</a> with user check-ins as seeds. Since Voronoi nodes are points equidistant to three or more sites, they work as a straightfoward way to find new points optimially distanced from the original set.</p>

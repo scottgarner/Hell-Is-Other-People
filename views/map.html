@@ -2,47 +2,53 @@
 
 <script>
 
+var dimensions = {width: 400, height: 745};
+var bounds = {n:40.682949,w:-74.047852,s:40.881989,e:-73.906693};
+var nodes =  [];
+var sites = [];
+var radius = 5;
+
 $(document).ready( function() {
 
-	// 12589342
-	// -74.047852, 40.682949, -73.906693 , 40.881989
 
-	var mapContext = $('#mapCanvas')[0].getContext('2d');
+	// Raphael Setup
+	////////////////
 
-	var bounds = {n:40.682949,w:-74.047852,s:40.881989,e:-73.906693};
-	var dimensions = {width: mapContext.canvas.width, height: mapContext.canvas.height};
-	var radius = 4;
+	var paper = Raphael("mapPaper", 400, 745);
+
+
+	// Fetch and Process
+	////////////////////
 
 	$.ajax({
 		url: '/json/',
 		success: function(data) {
 			console.log(data);
 
+			//sites = data.slice(0);
+
 			var voronoi = new Voronoi();
   			var bbox = {xl:0,xr:dimensions.width,yt:0,yb:dimensions.height};
   			//var bbox = {xl:bounds.w,xr:bounds.e,yt:bounds.n,yb:bounds.s};
-			var vertices = [];
 
 			$(data).each(function(index,value) {	
 
 				var location = {latitude: value.location_lat, longitude: value.location_lng}
 				var point = locationToPoint( location, bounds, dimensions);
 
-				vertices.push({x:point.x, y: point.y})
-				//vertices.push({y:location.latitude, x: location.longitude});
+				sites.push(point);
 
-				mapContext.beginPath();
-				mapContext.arc(point.x, point.y, radius, 0, 2 * Math.PI, false);
-				mapContext.fillStyle = '#F6B83C';
-				mapContext.fill();
+			});
 
-			})
 
-			var diagram = voronoi.compute(vertices, bbox);
+			// Calculate Voronoi
+			////////////////////
 
-			console.log(diagram);
+			var diagram = voronoi.compute(sites, bbox);
 
-			var nodes =  [];
+			// Draw Edges
+			/////////////
+
 			$(diagram.edges).each( function (index, value) {
 
 				//var startPoint = locationToPoint( { longitude: value.va.x, latitude: value.va.y} ,bounds,dimensions);
@@ -62,36 +68,42 @@ $(document).ready( function() {
 				if (!startStored) nodes.push(startPoint);
 				if (!endStored) nodes.push(endPoint);
 
-				mapContext.beginPath();
-       			mapContext.moveTo(startPoint.x,startPoint.y);
-       			mapContext.lineTo(endPoint.x,endPoint.y);
-       			mapContext.strokeStyle = '#99ccff';
-       			mapContext.lineWidth = 1.5;
-       			mapContext.stroke();
+
+       			var path = "M" + startPoint.x + " " + startPoint.y + " L" + endPoint.x + " " + endPoint.y;
+				var line = paper.path(path)
+				    .attr("stroke", "#99CCFF")
+				    .attr("stroke-width", "1.5");
+
+
 			});
 
-			console.log(nodes);
+			// Draw Sites
+			/////////////
+
+			$(sites).each( function(index, value){
+
+				paper.circle(value.x , value.y, radius)
+				.attr({fill: "#F6B83C", stroke: 'none', cursor: "pointer"})
+				.data("index",index)
+				.click(function () {
+					showPoint(sites[index]);
+				});
+
+			});
 
 			// Draw Nodes
 			/////////////
-
-			var locationCount = 0;
 
 			$(nodes).each( function(index, value){
 
 				if (value.x != 0 && value.x != dimensions.width && value.y != 0 && value.y != dimensions.height) {
 
-					mapContext.beginPath();
-					mapContext.arc(value.x, value.y, radius, 0, 2 * Math.PI, false);
-					mapContext.fillStyle = '#B1F317';
-					mapContext.fill();
-
-					var location = pointToLocation(value, bounds, dimensions);
-
-					var link = $('<a/>')
-						.text("Location " + locationCount++)
-						.attr('href', "http://maps.google.com/?q=" + location.latitude + "," + location.longitude);
-					$("#locations").append(link).append($("<br/>"));
+					paper.circle(value.x , value.y, radius)
+					.attr({fill: "#b1f317", stroke: 'none', cursor: "pointer"})
+					.data('index', index)
+					.click(function () {
+						showPoint(nodes[index]);
+					});
 				}
 
 			});
@@ -103,6 +115,26 @@ $(document).ready( function() {
 	});
 
 });
+
+function showPoint(point) {
+
+	var location = pointToLocation(point, bounds, dimensions);
+	
+	$("#informationTitle").text("Point Information");
+	$("#informationImage")
+		.attr('src', "http://maps.googleapis.com/maps/api/streetview" +
+			"?size=308x120" +
+			"&location=" + location.latitude + "," + location.longitude + 
+			"&fov=120&sensor=false")
+		.attr({width: 308, height: 120});
+	$("#informationLink")
+		.text("View on Google Maps")
+		.attr('href', "http://maps.google.com/?q=" + location.latitude + "," + location.longitude);
+	$("#informationLatitude").text(location.latitude);
+	$("#informationLongitude").text(location.longitude);
+
+	$("#information").fadeIn('slow');
+}
 
 
 function locationToPoint (location, bounds, dimensions) {
@@ -131,15 +163,32 @@ function pointToLocation(point, bounds, dimensions) {
 </script>
 
 <div id="map">
-<img id="mapImage" src="https://dl.dropboxusercontent.com/u/4510579/2013/hellisotherpeople/map.png" width="400" height="745"/>
-<canvas id="mapCanvas" width="400" height="745"/>
+	<img id="mapImage" src="https://dl.dropboxusercontent.com/u/4510579/2013/hellisotherpeople/map.png" width="400" height="745"/>
+	<div id="mapPaper"></div>
 </div>
 
 <div id="locations">
 
-<h2>Safe Locations</h2>
+	<h2>Map</h2>
 
-<p>The locations below are optimally distant from users with recent check-ins.</p>
+	<p>Points shown in orange are recent check-ins. Points shown in green are locations optimally distanced from those users.</p>
+
+	<p>Click either point type for more information.</p>
+
+	<hr/>
+
+	<div id="information">
+
+		<h2 id="informationTitle">Title</h2>
+
+		<img id="informationImage"/><br/>
+
+		<label>Latitude</label> <span id="informationLatitude">Lat</span><br/>
+		<label>Longitude</label> <span id="informationLongitude">Long</span><br/>
+
+		<span><a id="informationLink" href="">View on Google Maps</a></span>
+
+	</div>
 
 </div>
 

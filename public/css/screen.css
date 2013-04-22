@@ -1,6 +1,7 @@
 body {
    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
    font-weight: 300;
+   line-height: 1.4em;
    background: #cfcfcf;
    font-size: 11pt;
    background: url('https://dl.dropboxusercontent.com/u/4510579/2013/hellisotherpeople/background.png');
@@ -11,7 +12,7 @@ body {
 	border-radius: 2px;
 	padding: 4px 12px;
 	background: #efefef;
-	width: 720px;
+	width: 640px;
 	margin: auto;
 	margin-top: 64px;
 	background: url('https://dl.dropboxusercontent.com/u/4510579/2013/hellisotherpeople/foreground.png');
@@ -58,6 +59,16 @@ h1 {
 	font-size: 1.4em;
 	font-weight: normal;
 	font-family: Georgia;
+}
+
+h2 {
+
+	font-size: 1.1em;
+	font-weight: normal;
+	font-family: Georgia;
+	font-style: italic;
+	color: #666;
+
 }
 
 h1 a {

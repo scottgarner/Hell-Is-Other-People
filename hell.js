@@ -19,6 +19,10 @@ var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/he
 var client = new pg.Client(connectionString);
 client.connect();
 
+
+// Routes
+/////////
+
 app.get('/', function(request, response) {
 
   response.render('index');
@@ -46,21 +50,25 @@ app.get('/status', function(request, response) {
   response.send("Everything appears nominal.");
 });
 
-function authRequest(code) {
+app.get('/map', function(request, response) {
+  response.render('map');
+});
 
-  var url = "https://foursquare.com/oauth2/access_token"+
-  "?client_id=S1ZJDYD1JVMEP5IET2OMBIJ2RDLZJPZ4QTY3EFHSRVLAI3OX"+
-  "&client_secret=QWK54ZSA402ONOJBOMXQ3KOJ1L03SUKOFYNN4T1URCJU12JC"+
-  "&grant_type=authorization_code"+
-  "&redirect_uri=https://hellisotherpeople.herokuapp.com/redirect/"+
-  "&code=" + code;
+app.get('/json/',function(request, response) {
 
-  request(url,function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      //console.log(body);
-    }
-  });
-}
+  client.query(
+    "SELECT location_lat, location_lng FROM people",
+    function selectCb(err, results, fields){
+      if(err) { throw err; }
+    
+      response.setHeader('Content-Type', 'application/json');
+      response.send( results.rows );
+      
+      response.end();
+  });   
+
+});
+
 
 app.post('/ws', function(request, response) {
   response.send('Total webservice!');
@@ -81,6 +89,26 @@ app.post('/ws', function(request, response) {
 
 
 });
+
+function authRequest(code) {
+
+  var url = "https://foursquare.com/oauth2/access_token"+
+  "?client_id=S1ZJDYD1JVMEP5IET2OMBIJ2RDLZJPZ4QTY3EFHSRVLAI3OX"+
+  "&client_secret=QWK54ZSA402ONOJBOMXQ3KOJ1L03SUKOFYNN4T1URCJU12JC"+
+  "&grant_type=authorization_code"+
+  "&redirect_uri=https://hellisotherpeople.herokuapp.com/redirect/"+
+  "&code=" + code;
+
+  request(url,function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log(body);
+    }
+  });
+}
+
+
+// Listener
+///////////
 
 app.listen(port, function() {
   console.log("Listening on " + port);

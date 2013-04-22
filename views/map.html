@@ -128,12 +128,23 @@ function showPoint(point) {
 			"&fov=120&sensor=false")
 		.attr({width: 308, height: 120});
 	$("#informationLink")
-		.text("View on Google Maps")
 		.attr('href', "http://maps.google.com/?q=" + location.latitude + "," + location.longitude);
 	$("#informationLatitude").text(location.latitude);
 	$("#informationLongitude").text(location.longitude);
-
+	$("#informationAddress").text("");
 	$("#information").fadeIn('slow');
+
+	// Lookup Data
+
+	var url = "http://maps.googleapis.com/maps/api/geocode/json" +
+		"?latlng=" + location.latitude + "," + location.longitude + 
+		"&sensor=false"
+	$.ajax({ url: url, success: function(data) {
+
+		var html = (data.results[0].formatted_address).replace(",","<br/>");
+		$("#informationAddress").html(html);
+	}})
+
 }
 
 
@@ -181,12 +192,12 @@ function pointToLocation(point, bounds, dimensions) {
 
 		<h2 id="informationTitle">Title</h2>
 
-		<img id="informationImage"/><br/>
+		<a id="informationLink" href=""><img id="informationImage"/></a><br/>
+		<label>Latitude</label><br/><span id="informationLatitude">Lat</span><br/>
+		<label>Longitude</label><br/><span id="informationLongitude">Long</span><br/>
+		<label>Address</label><br/><span id="informationAddress">Address</span></br>
 
-		<label>Latitude</label> <span id="informationLatitude">Lat</span><br/>
-		<label>Longitude</label> <span id="informationLongitude">Long</span><br/>
 
-		<span><a id="informationLink" href="">View on Google Maps</a></span>
 
 	</div>
 

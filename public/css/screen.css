@@ -4,7 +4,7 @@ body {
    line-height: 1.4em;
    background: #cfcfcf;
    font-size: 11pt;
-   background: url('http://s3.amazonaws.com/hellisotherpeople/background.jpg');
+   background: url('//s3.amazonaws.com/hellisotherpeople/background.jpg');
 }
 
 #content {
@@ -15,7 +15,7 @@ body {
 	width: 720px;
 	margin: auto;
 	margin-top: 64px;
-	background: url('http://s3.amazonaws.com/hellisotherpeople/foreground.jpg');
+	background: url('//s3.amazonaws.com/hellisotherpeople/foreground.jpg');
 	box-shadow: 2px 2px 6px #000;
 }
 

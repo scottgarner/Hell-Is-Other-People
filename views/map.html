@@ -15,7 +15,7 @@ $(document).ready( function() {
 	////////////////
 
 	var draw = SVG('map').size(400, 745);
-	var image = draw.image('https://s3.amazonaws.com/hellisotherpeople/map.jpg', 400, 745)
+	var image = draw.image('//s3.amazonaws.com/hellisotherpeople/map.jpg', 400, 745)
 
 	// Fetch and Process
 	////////////////////
@@ -23,9 +23,6 @@ $(document).ready( function() {
 	$.ajax({
 		url: '/json/',
 		success: function(data) {
-			console.log(data);
-
-			//sites = data.slice(0);
 
 			var voronoi = new Voronoi();
   			var bbox = {xl:0,xr:dimensions.width,yt:0,yb:dimensions.height};
@@ -109,13 +106,13 @@ function showPoint(point) {
 	
 	$("#informationTitle").text("Point Information");
 	$("#informationImage")
-		.attr('src', "https://maps.googleapis.com/maps/api/streetview" +
+		.attr('src', "//maps.googleapis.com/maps/api/streetview" +
 			"?size=308x120" +
 			"&location=" + location.latitude + "," + location.longitude + 
 			"&fov=120&sensor=false")
 		.attr({width: 308, height: 120});
 	$("#informationLink")
-		.attr('href', "https://maps.google.com/?q=" + location.latitude + "," + location.longitude);
+		.attr('href', "//maps.google.com/?q=" + location.latitude + "," + location.longitude);
 	$("#informationLatitude").text(location.latitude);
 	$("#informationLongitude").text(location.longitude);
 	$("#informationAddress").text("");
@@ -123,7 +120,7 @@ function showPoint(point) {
 
 	// Lookup Data
 
-	var url = "https://maps.googleapis.com/maps/api/geocode/json" +
+	var url = "//maps.googleapis.com/maps/api/geocode/json" +
 		"?latlng=" + location.latitude + "," + location.longitude + 
 		"&sensor=false"
 	$.ajax({ url: url, success: function(data) {

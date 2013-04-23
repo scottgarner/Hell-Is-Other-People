@@ -57,7 +57,7 @@ app.get('/map', function(request, response) {
 app.get('/json/',function(request, response) {
 
   client.query(
-    "SELECT location_lat, location_lng FROM people ORDER BY mod_time DESC LIMIT 12;",
+    "SELECT mod_time, location_lat, location_lng FROM people ORDER BY mod_time DESC LIMIT 10;",
     function selectCb(err, results, fields){
       if(err) { throw err; }
     

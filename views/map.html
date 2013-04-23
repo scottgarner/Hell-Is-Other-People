@@ -14,8 +14,8 @@ $(document).ready( function() {
 	// Raphael Setup
 	////////////////
 
-	var paper = Raphael("mapPaper", 400, 745);
-
+	var draw = SVG('map').size(400, 745);
+	var image = draw.image('http://s3.amazonaws.com/hellisotherpeople/map.jpg', 400, 745)
 
 	// Fetch and Process
 	////////////////////
@@ -53,17 +53,8 @@ $(document).ready( function() {
 
 			$(diagram.edges).each( function (index, value) {
 
-				//var startPoint = locationToPoint( { longitude: value.va.x, latitude: value.va.y} ,bounds,dimensions);
-				//var endPoint = locationToPoint( { longitude: value.vb.x, latitude: value.vb.y} ,bounds,dimensions);
-
-				var startPoint = value.va;
-				var endPoint = value.vb;
-
-       			var path = "M" + startPoint.x + " " + startPoint.y + " L" + endPoint.x + " " + endPoint.y;
-				var line = paper.path(path)
-				    .attr("stroke", "#99CCFF")
-				    .attr("stroke-width", "1.5");
-
+				var line = draw.line(value.va.x, value.va.y, value.vb.x, value.vb.y)
+								.stroke({ color: '#99CCFF', width: 1.5 })		    
 
 			});
 
@@ -72,12 +63,14 @@ $(document).ready( function() {
 
 			$(sites).each( function(index, value){
 
-				paper.circle(value.x , value.y, radius)
-				.attr({fill: "#F6B83C", stroke: 'none', cursor: "pointer"})
-				.data("index",index)
-				.click(function () {
-					showPoint(sites[index]);
-				});
+				draw.circle(10)
+					.center(value.x , value.y)
+					.fill({color:"#F6B83C"})
+					.style('cursor', 'pointer')
+					.data("index",index)
+					.click(function() {
+  						showPoint(sites[this.data('index')]);
+					})
 
 			});
 
@@ -88,12 +81,16 @@ $(document).ready( function() {
 
 				if (value.x != 0 && value.x != dimensions.width && value.y != 0 && value.y != dimensions.height) {
 
-					paper.circle(value.x , value.y, radius)
-					.attr({fill: "#b1f317", stroke: 'none', cursor: "pointer"})
-					.data('index', index)
-					.click(function () {
-						showPoint(nodes[index]);
-					});
+					draw.circle(10)
+						.center(value.x , value.y)
+						.fill({color:"#B1F317"})
+						.style('cursor', 'pointer')
+						.data("index",index)
+						.click(function() {
+	  						showPoint(sites[this.data('index')]);
+						})
+
+
 				}
 
 			});
@@ -164,8 +161,6 @@ function pointToLocation(point, bounds, dimensions) {
 </script>
 
 <div id="map">
-	<img id="mapImage" src="http://s3.amazonaws.com/hellisotherpeople/map.jpg" width="400" height="745"/>
-	<div id="mapPaper"></div>
 </div>
 
 <div id="locations">

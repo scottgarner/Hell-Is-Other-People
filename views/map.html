@@ -15,7 +15,7 @@ $(document).ready( function() {
 	////////////////
 
 	var draw = SVG('map').size(400, 745);
-	var image = draw.image('http://s3.amazonaws.com/hellisotherpeople/map.jpg', 400, 745)
+	var image = draw.image('https://s3.amazonaws.com/hellisotherpeople/map.jpg', 400, 745)
 
 	// Fetch and Process
 	////////////////////
@@ -109,13 +109,13 @@ function showPoint(point) {
 	
 	$("#informationTitle").text("Point Information");
 	$("#informationImage")
-		.attr('src', "http://maps.googleapis.com/maps/api/streetview" +
+		.attr('src', "https://maps.googleapis.com/maps/api/streetview" +
 			"?size=308x120" +
 			"&location=" + location.latitude + "," + location.longitude + 
 			"&fov=120&sensor=false")
 		.attr({width: 308, height: 120});
 	$("#informationLink")
-		.attr('href', "http://maps.google.com/?q=" + location.latitude + "," + location.longitude);
+		.attr('href', "https://maps.google.com/?q=" + location.latitude + "," + location.longitude);
 	$("#informationLatitude").text(location.latitude);
 	$("#informationLongitude").text(location.longitude);
 	$("#informationAddress").text("");
@@ -123,7 +123,7 @@ function showPoint(point) {
 
 	// Lookup Data
 
-	var url = "http://maps.googleapis.com/maps/api/geocode/json" +
+	var url = "https://maps.googleapis.com/maps/api/geocode/json" +
 		"?latlng=" + location.latitude + "," + location.longitude + 
 		"&sensor=false"
 	$.ajax({ url: url, success: function(data) {

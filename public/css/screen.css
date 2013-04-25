@@ -8,7 +8,7 @@ body {
 }
 
 #content {
-
+	position: relative;
 	border-radius: 2px;
 	padding: 4px 12px;
 	background: #efefef;
@@ -39,6 +39,16 @@ body {
 	float: left;
 	margin-right: 12px;
 	overflow: auto;
+}
+
+#map-canvas {
+	position: absolute;
+	width: 400px;
+	height: 500px;
+	float: left;
+	margin-right: 12px;
+	top: 0px;
+	left: 400px;
 }
 
 #mapImage {

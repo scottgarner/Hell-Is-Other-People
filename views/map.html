@@ -7,7 +7,6 @@ $(document).ready( function() {
 	$.ajax({
 		url: '/json/',
 		success: function(data) {
-			console.log(data);
 			drawMap('map',data);
 
 		}

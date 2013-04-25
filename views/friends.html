@@ -18,8 +18,6 @@ $(document).ready( function() {
 
 		$(data.response.recent).each(function (index, value) {
 
-			console.log( data.response.recent[index].createdAt);
-
 			locationData.push( {
 				'location_lat': data.response.recent[index].venue.location.lat,
 				'location_lng': data.response.recent[index].venue.location.lng

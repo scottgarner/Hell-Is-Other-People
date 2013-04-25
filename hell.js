@@ -8,7 +8,7 @@ var FOURSQUARE_CLIENT_SECRET = "QWK54ZSA402ONOJBOMXQ3KOJ1L03SUKOFYNN4T1URCJU12JC
 
 var port = process.env.PORT || 5000;
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/hell'
-var callback = "https://hellisotherpeople.herokuapp.com/redirect/"; // "http://localhost:5000/redirect/"
+var callbackURL = process.env.REDIRECT_URL || "http://localhost:5000/redirect/";
 
 // Passport
 ///////////
@@ -25,7 +25,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new FoursquareStrategy({
     clientID: FOURSQUARE_CLIENT_ID,
     clientSecret: FOURSQUARE_CLIENT_SECRET,
-    callbackURL: callback
+    callbackURL: callbackURL
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...

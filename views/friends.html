@@ -9,7 +9,7 @@
 $(document).ready( function() {
 
 	var url = "https://api.foursquare.com/v2/checkins/recent"+
-		"?oauth_token=<%= access_token %>" + 
+		"?oauth_token=<%= access_token %>" +
 		"&v=20130424";
 
 	$.ajax({url: url, success: function(data) {
@@ -18,13 +18,14 @@ $(document).ready( function() {
 
 		$(data.response.recent).each(function (index, value) {
 
+			console.log( data.response.recent[index].createdAt);
+
 			locationData.push( {
 				'location_lat': data.response.recent[index].venue.location.lat,
 				'location_lng': data.response.recent[index].venue.location.lng
 			});
 		});
 
-		console.log(locationData);
 
 		drawMap('map',locationData);
 	}});

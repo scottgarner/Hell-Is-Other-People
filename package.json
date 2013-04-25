@@ -2,7 +2,7 @@
   "name": "hell",
   "version": "0.0.1",
   "dependencies": {
-    "pg": "0.6.15",
+    "pg": "latest",
     "express": "latest",
     "ejs": "latest",
     "passport": "latest",

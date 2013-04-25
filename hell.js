@@ -1,12 +1,10 @@
 var express = require("express");
 var pg = require('pg');
-var util = require('util');
 var passport = require('passport')
 var FoursquareStrategy = require('passport-foursquare').Strategy;
 
 var FOURSQUARE_CLIENT_ID = "S1ZJDYD1JVMEP5IET2OMBIJ2RDLZJPZ4QTY3EFHSRVLAI3OX";
 var FOURSQUARE_CLIENT_SECRET = "QWK54ZSA402ONOJBOMXQ3KOJ1L03SUKOFYNN4T1URCJU12JC";
-
 
 var port = process.env.PORT || 5000;
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/hell'
@@ -26,7 +24,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new FoursquareStrategy({
     clientID: FOURSQUARE_CLIENT_ID,
     clientSecret: FOURSQUARE_CLIENT_SECRET,
-    callbackURL: "https://hellisotherpeople.herokuapp.com/redirect"
+    callbackURL: "https://hellisotherpeople.herokuapp.com/redirect/"
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
@@ -92,43 +90,34 @@ app.get('/about', function(request, response) {
 });
 
 app.get('/friends', ensureAuthenticated, function(req, response) {
-
-  console.log(req.user);
-
-  //request.session.access_token = "JC3ECF0X52LJAIHTOMFXIATP3BS1J1EVHP3W1VTZ1MRCPEC4";
   response.render('friends', { 'access_token' : req.user});
-
 });
 
 app.get('/status', function(request, response) {
   response.send("Everything appears nominal.");
 });
 
-app.get('/history', function(request, response) {
-  response.send("Storing history.");
-  storeHistory();
-});
-
 app.get('/map', function(request, response) {
   response.render('map');
 });
 
-app.get('/json/',function(request, response) {
+// Data
+///////
 
+app.get('/json',function(req, res) {
+console.log('wat');
   client.query(
     "SELECT mod_time, location_lat, location_lng FROM people ORDER BY mod_time DESC LIMIT 10;",
     function selectCb(err, results, fields){
       if(err) { throw err; }
     
-      response.setHeader('Content-Type', 'application/json');
-      response.send( results.rows );
-      
-      response.end();
+      var json = JSON.stringify(results.rows);
+      res.writeHead(200, {'content-type':'application/json', 'content-length':json.length}); 
+      res.end(json);
     }
   );   
 
 });
-
 
 app.post('/ws', function(request, response) {
   response.send('Total webservice!');

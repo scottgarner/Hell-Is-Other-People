@@ -26,7 +26,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new FoursquareStrategy({
     clientID: FOURSQUARE_CLIENT_ID,
     clientSecret: FOURSQUARE_CLIENT_SECRET,
-    callbackURL: "http://hellisotherpeople.herokuapp.com/redirect"
+    callbackURL: "https://hellisotherpeople.herokuapp.com/redirect"
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...

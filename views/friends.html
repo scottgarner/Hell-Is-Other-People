@@ -1,21 +1,39 @@
 <% include header.html %>
 
+
+
 <script>
+
+
 
 $(document).ready( function() {
 
-	$.ajax({
-		url: '/json/',
-		success: function(data) {
+	var url = "https://api.foursquare.com/v2/checkins/recent"+
+		"?oauth_token=<%= access_token %>" + 
+		"&v=20130424";
 
-			drawMap('map',data);
+	$.ajax({url: url, success: function(data) {
 
-		}
-	});
+		var locationData = [];
 
-});
+		$(data.response.recent).each(function (index, value) {
+
+			locationData.push( {
+				'location_lat': data.response.recent[index].venue.location.lat,
+				'location_lng': data.response.recent[index].venue.location.lng
+			});
+		});
+
+		console.log(locationData);
+
+		drawMap('map',locationData);
+	}});
+
+
+});	
 
 </script>
+
 
 <div id="map"></div>
 

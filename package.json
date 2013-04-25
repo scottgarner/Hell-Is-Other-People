@@ -4,8 +4,10 @@
   "dependencies": {
     "pg": "0.6.15",
     "express": "latest",
-    "request": "latest",
-    "ejs": "latest"
+    "ejs": "latest",
+    "passport": "latest",
+    "passport-foursquare": "latest",
+    "oauth": "latest"
   },
   "engines": {
     "node": "0.10.x",

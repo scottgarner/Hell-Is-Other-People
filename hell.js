@@ -1,20 +1,75 @@
 var express = require("express");
 var pg = require('pg');
-var request = require('request');
+var util = require('util');
+var passport = require('passport')
+var FoursquareStrategy = require('passport-foursquare').Strategy;
 
-
-var app = express();
-app.use(express.logger());
-app.use(express.bodyParser());
-app.use(express.static(__dirname + '/public'));
-
-app.engine('.html', require('ejs').__express);
-app.set('views', __dirname + '/views');
-app.set('view engine', 'html');
+var FOURSQUARE_CLIENT_ID = "S1ZJDYD1JVMEP5IET2OMBIJ2RDLZJPZ4QTY3EFHSRVLAI3OX";
+var FOURSQUARE_CLIENT_SECRET = "QWK54ZSA402ONOJBOMXQ3KOJ1L03SUKOFYNN4T1URCJU12JC";
 
 
 var port = process.env.PORT || 5000;
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/hell'
+
+// Passport
+///////////
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+
+passport.use(new FoursquareStrategy({
+    clientID: FOURSQUARE_CLIENT_ID,
+    clientSecret: FOURSQUARE_CLIENT_SECRET,
+    callbackURL: "http://hellisotherpeople.herokuapp.com/redirect"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function () {
+      
+      // To keep the example simple, the user's Foursquare profile is returned
+      // to represent the logged-in user.  In a typical application, you would
+      // want to associate the Foursquare account with a user record in your
+      // database, and return that user instead.
+      return done(null, accessToken);
+    });
+  }
+));
+
+
+
+// App
+///////////
+
+var app = express();
+
+app.configure(function() {
+
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'html');
+
+  app.use(express.logger());
+  app.use(express.cookieParser());
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  app.use(express.session({secret: "s4cr3t4g3nt"}));
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.use(app.router);
+  app.use(express.static(__dirname + '/public'));
+
+  app.engine('.html', require('ejs').__express);
+
+});
+
+
+// DB
+/////
 
 var client = new pg.Client(connectionString);
 client.connect();
@@ -23,10 +78,9 @@ client.connect();
 // Routes
 /////////
 
-app.get('/', function(request, response) {
-
-  response.render('index');
-
+app.get('/', function(req, res){
+  console.log(req)
+  res.render('index');
 });
 
 app.get('/privacy', function(request, response) {
@@ -37,17 +91,22 @@ app.get('/about', function(request, response) {
   response.render('about');
 });
 
-app.get('/redirect', function(request, response) {
-  
-  response.render('redirect');
+app.get('/friends', ensureAuthenticated, function(req, response) {
 
-  var code = request.query["code"];
-  authRequest(code);
+  console.log(req.user);
+
+  //request.session.access_token = "JC3ECF0X52LJAIHTOMFXIATP3BS1J1EVHP3W1VTZ1MRCPEC4";
+  response.render('friends', { 'access_token' : req.user});
 
 });
 
 app.get('/status', function(request, response) {
   response.send("Everything appears nominal.");
+});
+
+app.get('/history', function(request, response) {
+  response.send("Storing history.");
+  storeHistory();
 });
 
 app.get('/map', function(request, response) {
@@ -65,7 +124,8 @@ app.get('/json/',function(request, response) {
       response.send( results.rows );
       
       response.end();
-  });   
+    }
+  );   
 
 });
 
@@ -90,22 +150,31 @@ app.post('/ws', function(request, response) {
 
 });
 
-function authRequest(code) {
+// Auth
+///////
 
-  var url = "https://foursquare.com/oauth2/access_token"+
-  "?client_id=S1ZJDYD1JVMEP5IET2OMBIJ2RDLZJPZ4QTY3EFHSRVLAI3OX"+
-  "&client_secret=QWK54ZSA402ONOJBOMXQ3KOJ1L03SUKOFYNN4T1URCJU12JC"+
-  "&grant_type=authorization_code"+
-  "&redirect_uri=https://hellisotherpeople.herokuapp.com/redirect/"+
-  "&code=" + code;
-
-  request(url,function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      console.log(body);
-    }
+app.get('/auth',
+  passport.authorize('foursquare'),
+  function(req, res){
+    // The request will be redirected to Foursquare for authentication, so this
+    // function will not be called.
   });
-}
 
+app.get('/redirect', 
+  passport.authenticate('foursquare', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/friends/');
+  });
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/auth')
+}
 
 // Listener
 ///////////

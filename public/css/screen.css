@@ -38,43 +38,18 @@ body {
 	height: 500px;
 	float: left;
 	margin-right: 12px;
-	overflow: auto;
 }
 
-#map-canvas {
-	position: absolute;
-	width: 400px;
+#key {
+	position:relative;	
 	height: 500px;
-	float: left;
-	margin-right: 12px;
-	top: 0px;
-	left: 400px;
+	margin-left: 412px;
+	overflow: hidden;
 }
 
-#mapImage {
-	position:absolute;
-	top:0;
-	left: 0;
-}
-
-#mapPaper {
-	position:absolute;
-	top:0;
-	left: 0;
-	z-index: 100;
-}
-
-
-#locations {
-	height: 500px;
-}
-
-#information {
-	display: none;
-}
-
-#information label, #information span {
+#information label, #information span, #key p {
 	font-size: .9em;
+	display: block;
 }
 
 #information label {

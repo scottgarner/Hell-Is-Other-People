@@ -10,22 +10,12 @@ $(document).ready( function() {
 
 	var url = "https://api.foursquare.com/v2/checkins/recent"+
 		"?oauth_token=<%= access_token %>" +
+		"&limit=10"+
 		"&v=20130424";
 
 	$.ajax({url: url, success: function(data) {
 
-		var locationData = [];
-
-		$(data.response.recent).each(function (index, value) {
-
-			locationData.push( {
-				'location_lat': data.response.recent[index].venue.location.lat,
-				'location_lng': data.response.recent[index].venue.location.lng
-			});
-		});
-
-
-		drawMap('map',locationData);
+		drawMap('map',data.response.recent);
 	}});
 
 
@@ -36,26 +26,16 @@ $(document).ready( function() {
 
 <div id="map"></div>
 
-<div id="locations">
+<div id="key">
 
-	<h2>Map</h2>
+	<h2>"Friend" Map</h2>
 
-	<p>Orange points indicate recent check-ins by your friends. Green points are locations optimally distanced from them.</p>
+	<p>Orange points are recent check-ins by your "friends". Green points are optimally distanced from them.</p>
 
 	<p>Click either point type for more information.</p>
 
-	<hr/>
+	<div id="information"></div>
 
-	<div id="information">
-
-		<h2 id="informationTitle">Title</h2>
-
-		<a id="informationLink" href=""><img id="informationImage"/></a><br/>
-		<label>Latitude</label><br/><span id="informationLatitude">Lat</span><br/>
-		<label>Longitude</label><br/><span id="informationLongitude">Long</span><br/>
-		<label>Address</label><br/><span id="informationAddress">Address</span></br>
-
-	</div>
 
 </div>
 

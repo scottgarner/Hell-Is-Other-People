@@ -8,16 +8,9 @@
 
 $(document).ready( function() {
 
-	var url = "https://api.foursquare.com/v2/checkins/recent"+
-		"?oauth_token=<%= access_token %>" +
-		"&limit=10"+
-		"&v=20130424";
+	var access_token = "<%= access_token %>";
 
-	$.ajax({url: url, success: function(data) {
-
-		drawMap('map',data.response.recent);
-	}});
-
+	initialize(access_token);
 
 });	
 

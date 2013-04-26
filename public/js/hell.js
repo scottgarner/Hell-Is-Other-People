@@ -266,10 +266,18 @@ function showPoint(marker) {
 			.append($("<span/>").text(infoVenu))			
 
 			.append($("<label/>").text("Address"))
-			.append($("<span/>").text(infoAddressOne + " " + infoAddressTwo))
+			.append($("<span/>").text(infoAddressOne))
+			.append($("<span/>").text(infoAddressTwo))
 
 			.append($("<label/>").text("Coordinates"))
-			.append($("<span/>").text(infoCoordinates));		
+			.append(
+				$("<span/>").append(
+					$("<a/>")
+						.attr('href',"//maps.google.com" +
+							"?q=" + marker.position.lat() + "," + marker.position.lng())
+						.text(infoCoordinates)
+				)
+			);		
 
 	} else {
 
@@ -290,7 +298,14 @@ function showPoint(marker) {
 				.attr({width: 308, height: 120}))
 
 			.append($("<label/>").text("Coordinates"))
-			.append($("<span/>").text(infoCoordinates))
+			.append(
+				$("<span/>").append(
+					$("<a/>")
+						.attr('href',"//maps.google.com" +
+							"?q=" + marker.position.lat() + "," + marker.position.lng())
+						.text(infoCoordinates)
+				)
+			);	
 
 
 

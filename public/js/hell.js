@@ -171,9 +171,29 @@ function drawPoints(data) {
 	    scale: 5.0
 	};
 
+	var userCircle = {
+	    path: google.maps.SymbolPath.CIRCLE,
+	    fillOpacity: 1.0,
+	    fillColor: "#17B1F3",
+	    strokeWeight: 0.0,
+	    scale: 5.0
+	};
+
 	var pixels = [];
 
 	$(data).each(function(index,value) {	
+
+		var isUser = false;
+		var marker = siteCircle;
+
+		if (!value.user || (value.user && value.user.relationship != "self")) {
+			isUser = false;
+			marker = siteCircle;
+		} else {
+			isUser = true;
+			marker = userCircle;
+		}
+
 
 		var location = (value.venue) ?
 			value.venue.location :
@@ -183,7 +203,7 @@ function drawPoints(data) {
 
 		if (map.getBounds().contains(coordinates)) {
 			var newCircle = new google.maps.Marker({
-			        icon: siteCircle,
+			        icon: marker,
 			        position: coordinates,
 			        index : index
 		    });
@@ -194,8 +214,10 @@ function drawPoints(data) {
 				showPoint(newCircle);
 			});				    
 
-			var pixel = overlay.getProjection().fromLatLngToContainerPixel(coordinates);
-			pixels.push(pixel);
+			if (!isUser) {
+				var pixel = overlay.getProjection().fromLatLngToContainerPixel(coordinates);
+				pixels.push(pixel);
+			}
 		}
 
 	});

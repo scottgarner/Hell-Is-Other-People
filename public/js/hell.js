@@ -105,7 +105,7 @@ function drawMap(element, data) {
 
 function clearPoints() {
 
-    for (i in markers) {
+    for (var i in markers) {
       markers[i].setMap(null);
     }
 

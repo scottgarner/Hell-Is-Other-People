@@ -2,7 +2,6 @@
 
 var http = require('http');
 
-
 function saveHistory() {
   
 	http.get("http://hellisotherpeople.herokuapp.com/history", function(res) {
@@ -14,3 +13,4 @@ function saveHistory() {
 }
 
 saveHistory();
+exit();

@@ -1,6 +1,7 @@
 var express = require("express");
 var pg = require('pg');
-var passport = require('passport')
+var passport = require('passport');
+var request = require("request");
 var FoursquareStrategy = require('passport-foursquare').Strategy;
 
 var FOURSQUARE_CLIENT_ID = "S1ZJDYD1JVMEP5IET2OMBIJ2RDLZJPZ4QTY3EFHSRVLAI3OX";
@@ -82,11 +83,11 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
-app.get('/privacy', function(request, response) {
+app.get('/privacy', function(req, response) {
   response.render('privacy');
 });
 
-app.get('/about', function(request, response) {
+app.get('/about', function(req, response) {
   response.render('about');
 });
 
@@ -94,11 +95,11 @@ app.get('/friends', ensureAuthenticated, function(req, response) {
   response.render('friends', { 'access_token' : req.user});
 });
 
-app.get('/status', function(request, response) {
+app.get('/status', function(req, response) {
   response.send("Everything appears nominal.");
 });
 
-app.get('/map', function(request, response) {
+app.get('/map', function(req, response) {
   response.render('map');
 });
 
@@ -120,10 +121,10 @@ console.log('wat');
 
 });
 
-app.post('/ws', function(request, response) {
+app.post('/ws', function(req, response) {
   response.send('Total webservice!');
 
-  var checkin = JSON.parse(request.body.checkin);
+  var checkin = JSON.parse(req.body.checkin);
 
   var mod_time = checkin.createdAt;
   var user_id = checkin.user.id;
@@ -139,6 +140,27 @@ app.post('/ws', function(request, response) {
 
 
 });
+
+app.get('/history', function(req, res) {
+
+  res.send('History saved!');
+
+  var access_token = "12FFY0GZIXILLVB0CCWADVDRX1ZAJOFTMMIEHM3JEC25E1K5";
+
+  var checkinsRecentURL = "https://api.foursquare.com/v2/checkins/recent"+
+    "?oauth_token=" + access_token +
+    "&limit=100"+   
+    "&afterTimestamp=" + Math.round((Date.now() / 1000) - (24 * 60 * 60) ) +
+    "&v=20130424";  
+
+  request(checkinsRecentURL, function(error, response, body) {
+
+    client.query('INSERT INTO history (mod_time, history) VALUES (CURRENT_TIMESTAMP, $1);',[body]);    
+
+  });
+
+
+})
 
 // Auth
 ///////

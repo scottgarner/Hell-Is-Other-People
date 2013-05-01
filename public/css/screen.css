@@ -58,23 +58,25 @@ body {
 
 h1 {
 
-	font-size: 1.4em;
+	font-size: 1.5em;
 	font-weight: normal;
 	font-family: Georgia;
+	text-align: center;
+	font-style: italic;
 }
 
 h2 {
 
-	font-size: 1.1em;
+	font-size: 1em;
 	font-weight: normal;
 	font-family: Georgia;
-	font-style: italic;
 	color: #666;
 
 }
 
 h1 a {
 	text-decoration: none;
+	font-color: #333;
 }
 
 hr {
@@ -89,6 +91,8 @@ a {
 	color: #333;
 }
 
+header {
+}
 
 footer {
 	font-size: .8em;

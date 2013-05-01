@@ -4,3 +4,8 @@ CREATE TABLE people (
     location_lat double precision,
     location_lng double precision
 );
+
+CREATE TABLE history (
+    mod_time timestamp DEFAULT current_timestamp,
+    history text
+);

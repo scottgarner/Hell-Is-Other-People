@@ -2,32 +2,19 @@
 
 <script>
 
-$(document).ready( function() {
-
-	$.ajax({
-		url: '/json/',
-		success: function(data) {
-			drawMap('map',data);
-
-		}
-	});
-
-});
+$(document).ready( function() { userMap(); });
 
 </script>
 
-<div id="map"></div>
-
-<div id="key">
+<div id="key" class="dialog">
 
 	<h2>Avoidance Map</h2>
 
-	<p>Orange points are recent check-ins users of this site. Green points are optimally distanced from them.</p>
+	<p>Orange points are check-ins by other users. Green points are optimally distanced from them.</p>
 
 	<p>Click either point type for more information.</p>
 
 	<div id="information"></div>
-
 
 </div>
 

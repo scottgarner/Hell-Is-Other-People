@@ -1,7 +1,6 @@
 "use strict";
 
 var userCoordinates;
-var dimensions = {width: 400, height: 500};
 var map, overlay, markers = [];
 var mapData;
 
@@ -43,7 +42,19 @@ var styles = [{
 	]
 }];
 
-function initialize(access_token) {
+function userMap() {
+
+	$.ajax({
+		url: '/json/',
+		success: function(data) {
+			drawMap('map',data);
+
+		}
+	});
+
+}
+
+function friendMap(access_token) {
 
 	var userCheckinsURL = "https://api.foursquare.com/v2/users/self/checkins" +
 		"?oauth_token=" + access_token +
@@ -126,7 +137,7 @@ function drawMap(element, data) {
 		panControl: false,
 		zoom: 12,
 		maxZoom: 18,
-		minZoom: 12,
+		minZoom: 1,
 		center: mapCenter
 	};
 	map = new google.maps.Map(document.getElementById('map'),mapOptions);	
@@ -231,7 +242,7 @@ function drawPoints(data) {
 	// Voronoi
 	//////////
 
-	var boundingBox = {xl:0,xr:dimensions.width,yt:0,yb:dimensions.height};	
+	var boundingBox = {xl:0,xr:$('#map').width(),yt:0,yb:$('#map').height()};	
 	var voronoi = new Voronoi();
 	var diagram = voronoi.compute(pixels, boundingBox);
 
@@ -249,7 +260,7 @@ function drawPoints(data) {
 	$(diagram.vertices).each(function(index,value) {	
 
 
-		if (value.x != 0 && value.x != dimensions.width && value.y != 0 && value.y != dimensions.height) {
+		if (value.x != 0 && value.x != $('#map').width() && value.y != 0 && value.y != $('#map').height()) {
 
 			var currentLocation = 	overlay.getProjection().fromContainerPixelToLatLng(value);
 
@@ -367,10 +378,10 @@ function showPoint(marker) {
 
 			.append($("<img/>")
 				.attr('src', "//maps.googleapis.com/maps/api/streetview" +
-					"?size=308x120" +
+					"?size=280x120" +
 					"&location=" + marker.position.lat() + "," + marker.position.lng() + 
 					"&fov=120&sensor=false")
-				.attr({width: 308, height: 120}))
+				.attr({width: 280, height: 120}))
 
 			.append($("<label/>").text("Coordinates"))
 			.append(

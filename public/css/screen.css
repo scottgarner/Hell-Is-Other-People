@@ -9,14 +9,29 @@ body {
 
 #content {
 	position: relative;
-	border-radius: 2px;
-	padding: 4px 12px;
-	background: #efefef;
+
 	width: 720px;
 	margin: auto;
 	margin-top: 64px;
+
+}
+
+#key {
+
+	position:absolute;	
+	width: 280px;
+	right: 12px;
+	top: 60px;
+	
+}
+
+.dialog {
+	border-radius: 2px;
+	padding: 4px 12px;
+	background: #efefef;
 	background: url('//s3.amazonaws.com/hellisotherpeople/foreground.jpg');
 	box-shadow: 2px 2px 6px #000;
+	z-index: 100;
 }
 
 #button {
@@ -33,18 +48,11 @@ body {
 }
 
 #map {
-	position: relative;
-	width: 400px;
-	height: 500px;
-	float: left;
-	margin-right: 12px;
-}
-
-#key {
-	position:relative;	
-	height: 500px;
-	margin-left: 412px;
-	overflow: hidden;
+	position: absolute;
+	top: 48px;
+	left: 0;
+	right: 0;
+	bottom: 26px;
 }
 
 #information label, #information span, #key p {
@@ -56,6 +64,18 @@ body {
 	color: #666;
 }
 
+header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 48px;
+	z-index: 90;
+	background: #333;
+   background: url('//s3.amazonaws.com/hellisotherpeople/background.jpg');
+
+}
+
 h1 {
 
 	font-size: 1.5em;
@@ -65,6 +85,11 @@ h1 {
 	font-style: italic;
 }
 
+h1 a {
+	text-decoration: none;
+	color: #efefef;
+}
+
 h2 {
 
 	font-size: 1em;
@@ -72,11 +97,6 @@ h2 {
 	font-family: Georgia;
 	color: #666;
 
-}
-
-h1 a {
-	text-decoration: none;
-	font-color: #333;
 }
 
 hr {
@@ -91,12 +111,15 @@ a {
 	color: #333;
 }
 
-header {
-}
-
 footer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
 	font-size: .8em;
-	text-align: right;
+	text-align: center;
+	background: #efefef;
+	height: 26px;
 }
 
 footer a {

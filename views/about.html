@@ -1,6 +1,7 @@
 <% include header.html %>
 
-<div id="content" class="dialog">
+<div id="outer">
+	<div id="content" class="dialog">
 
 <h2>The Concept</h2>
 
@@ -14,16 +15,13 @@
 
 <h2>The Map</h2>
 
-<p>The map is generated using the <a href="https://developers.google.com/maps/">Google Maps API</a> with custom styling. Boundaries were chosen based on the <a href="http://en.wikipedia.org/wiki/WOEID">WOEID</a> of <a href="http://sigizmund.info/woeidinfo/?woeid=12589342">Manhattan</a> and centered on ITP.
-
-<h2>The Math</h2>
-
-<p>The locations given to avoid other users are calculated by generating a <a href="http://en.wikipedia.org/wiki/Voronoi_diagram">Voronoi diagram</a> with user check-ins as seeds. The diagram is generated using a <a href="https://github.com/gorhill/Javascript-Voronoi">javascript library</a> by <a href="http://www.raymondhill.net">Raymond Hill</a>.</p>
+<p>The map is generated using the <a href="https://developers.google.com/maps/">Google Maps API</a> with custom styling. The locations given to avoid other users are calculated by generating a <a href="http://en.wikipedia.org/wiki/Voronoi_diagram">Voronoi diagram</a> with user check-ins as seeds. The diagram is generated using a <a href="https://github.com/gorhill/Javascript-Voronoi">javascript library</a> by <a href="http://www.raymondhill.net">Raymond Hill</a>.</p>
 
 <h2>Thanks</h2>
 
 <p>This project was concieved as a final for <a href="http://jamesgeorge.org/">James George</a>'s Emerging Processes in Video Art at <a href="http://itp.nyu.edu/">ITP</a>.
 
+	</div>
 </div>
 
 <% include footer.html %>

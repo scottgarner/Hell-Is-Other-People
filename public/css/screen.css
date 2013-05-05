@@ -80,6 +80,7 @@ footer {
 	#key {
 		position: relative;
 		width: 100%;
+		box-shadow: none !important;		
 	}
 
 }
@@ -105,7 +106,6 @@ footer {
 		width: 280px;
 		right: 12px;
 		top: 60px;
-		
 	}
 
 }

@@ -67,6 +67,8 @@ function friendMap(access_token) {
 		"&afterTimestamp=" + Math.round((Date.now() / 1000) - (36 * 60 * 60) ) +
 		"&v=20130424";			
 
+		console.log(checkinsRecentURL);
+
 	console.log(checkinsRecentURL);
 
 	$.ajax({
@@ -363,7 +365,8 @@ function showPoint(marker) {
 							"?q=" + marker.position.lat() + "," + marker.position.lng())
 						.text(infoCoordinates)
 				)
-			);		
+			)
+			.append($("<br/>"));		
 
 	} else {
 

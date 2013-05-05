@@ -64,7 +64,7 @@ function friendMap(access_token) {
 	var checkinsRecentURL = "https://api.foursquare.com/v2/checkins/recent"+
 		"?oauth_token=" + access_token +
 		"&limit=100"+		
-		"&afterTimestamp=" + Math.round((Date.now() / 1000) - (36 * 60 * 60) ) +
+		"&afterTimestamp=" + Math.round((Date.now() / 1000) - (24 * 60 * 60) ) +
 		"&v=20130424";			
 
 		console.log(checkinsRecentURL);

@@ -64,7 +64,7 @@ function friendMap(access_token) {
 	var checkinsRecentURL = "https://api.foursquare.com/v2/checkins/recent"+
 		"?oauth_token=" + access_token +
 		"&limit=100"+		
-		"&afterTimestamp=" + Math.round((Date.now() / 1000) - (24 * 60 * 60) ) +
+		"&afterTimestamp=" + Math.round((Date.now() / 1000) - (36 * 60 * 60) ) +
 		"&v=20130424";			
 
 	console.log(checkinsRecentURL);
@@ -378,10 +378,10 @@ function showPoint(marker) {
 
 			.append($("<img/>")
 				.attr('src', "//maps.googleapis.com/maps/api/streetview" +
-					"?size=280x120" +
+					"?size=256x120" +
 					"&location=" + marker.position.lat() + "," + marker.position.lng() + 
 					"&fov=120&sensor=false")
-				.attr({width: 280, height: 120}))
+				.attr({width: 256, height: 120}))
 
 			.append($("<label/>").text("Coordinates"))
 			.append(

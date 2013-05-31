@@ -1,0 +1,7 @@
+public/csv/
+public/js/vendor/jquery-csv.min.js
+public/js/vendor/requestanimationframe.js
+public/js/walk.js
+public/json/
+public/video/
+views/walk.html

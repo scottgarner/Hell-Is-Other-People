@@ -19,7 +19,7 @@ body {
 	line-height: 1.4em;
 	background: #cfcfcf;
 	font-size: 11pt;
-	background: url('//s3.amazonaws.com/hellisotherpeople/background.jpg');
+	background: url('/images/background.jpg');
 	margin: 0;
 	padding: 0;
 }
@@ -34,7 +34,7 @@ body {
 	border-radius: 2px;
 	padding: 4px 12px;
 	background: #efefef;
-	background: url('//s3.amazonaws.com/hellisotherpeople/foreground.jpg');
+	background: url('/images/foreground.jpg');
 	box-shadow: 2px 2px 6px #000;
 	z-index: 100;
 }
@@ -118,6 +118,44 @@ footer {
 
 #information label {
 	color: #666;
+}
+
+#videoBox {
+	position:absolute;
+	width: 100%;
+	z-index: 500;
+	background: #000;
+
+	top: 50%;
+	left: 50%;
+	margin-left: -320px;
+	margin-top: -180px;
+
+	width: 640px;
+	height: 360px;	
+
+	box-shadow: 2px 2px 6px #000;
+	border-radius: 2px;	
+
+	display: none;
+}
+
+#walkVideo {
+	width: 640px;
+	height: 360px;
+	background: #000;
+}
+
+#walkVideoX {
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	top:6px;
+	right: 6px;
+	background: url(/images/xcircle.png);
+	z-index: 999;
+
 }
 
 h1 {

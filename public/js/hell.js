@@ -1,46 +1,7 @@
 "use strict";
 
 var userCoordinates;
-var map, overlay, markers = [];
 var mapData;
-
-var styles = [{
-	"elementType": "geometry",
-	"stylers": [
-	{ "visibility": "simplified" }
-	]
-},{
-	"elementType": "labels",
-	"stylers": [
-	{ "visibility": "off" }
-	]
-},{
-	"featureType": "water",
-	"stylers": [
-	{ "color": "#5d6e74" }
-	]
-},{
-	"featureType": "transit",
-	"stylers": [
-	{ "visibility": "off" }
-	]
-},{
-	"featureType": "poi",
-	"stylers": [
-	{ "visibility": "off" }
-	]
-},{
-	"featureType": "landscape",
-	"stylers": [
-	{ "color": "#575757" }
-	]
-},{
-	"featureType": "road",
-	"stylers": [
-	{ "weight": 0.3 },
-	{ "color": "#a0a0a0" }
-	]
-}];
 
 function userMap() {
 
@@ -67,10 +28,6 @@ function friendMap(access_token) {
 		"&afterTimestamp=" + Math.round((Date.now() / 1000) - (24 * 60 * 60) ) +
 		"&v=20130424";			
 
-		console.log(checkinsRecentURL);
-
-	console.log(checkinsRecentURL);
-
 	$.ajax({
 		url: userCheckinsURL,
 		success: function(data) {
@@ -84,15 +41,14 @@ function friendMap(access_token) {
 				success: function(data) {
 					drawMap('map',data.response.recent);
 
-								console.log(data);
-
 				}
 			});
 
 		}
 	});
-
 }
+
+
 
 function drawMap(element, data) {
 
@@ -129,28 +85,11 @@ function drawMap(element, data) {
 		mapCenter = mapBounds.getCenter();
 	}
 
-	// Google Maps Setup
-	////////////////////
+	//
 
-	var mapOptions = {
-		streetViewControl: false,
-		zoomControl: false,
-		mapTypeControl: false,
-		panControl: false,
-		zoom: 12,
-		maxZoom: 18,
-		minZoom: 1,
-		center: mapCenter
-	};
-	map = new google.maps.Map(document.getElementById('map'),mapOptions);	
+		buildMap('map', mapCenter);
 
-	var styledMap = new google.maps.StyledMapType(styles,{name: "Styled Map"});
- 	map.mapTypes.set('map_style', styledMap);
-  	map.setMapTypeId('map_style');
-
-	overlay = new google.maps.OverlayView();
-	overlay.draw = function() {};
-	overlay.setMap(map);  	
+	//
 
 	google.maps.event.addListener(map, 'zoom_changed', function() {
 		clearPoints();
@@ -169,34 +108,11 @@ function drawMap(element, data) {
 
 }
 
-function clearPoints() {
-
-    for (var i in markers) {
-      markers[i].setMap(null);
-    }
-
-}
-
 function drawPoints(data) {
 
 	// Google Maps Sites
 	////////////////////
-	
-	var siteCircle = {
-	    path: google.maps.SymbolPath.CIRCLE,
-	    fillOpacity: 1.0,
-	    fillColor: "#F6B83C",
-	    strokeWeight: 0.0,
-	    scale: 5.0
-	};
 
-	var userCircle = {
-	    path: google.maps.SymbolPath.CIRCLE,
-	    fillOpacity: 1.0,
-	    fillColor: "#17B1F3",
-	    strokeWeight: 0.0,
-	    scale: 5.0
-	};
 
 	var pixels = [];
 
@@ -250,14 +166,6 @@ function drawPoints(data) {
 
 	// Nodes
 	////////
-
-	var nodeCircle = {
-	    path: google.maps.SymbolPath.CIRCLE,
-	    fillOpacity: 1.0,
-	    fillColor: "#B1F317",
-	    strokeWeight: 0.0,
-	    scale: 5.0
-	};	
 
 	$(diagram.vertices).each(function(index,value) {	
 

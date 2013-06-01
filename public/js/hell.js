@@ -7,6 +7,7 @@ function userMap() {
 
 	$.ajax({
 		url: '/json/',
+		dataType: "json",
 		success: function(data) {
 			drawMap('map',data);
 
@@ -30,6 +31,7 @@ function friendMap(access_token) {
 
 	$.ajax({
 		url: userCheckinsURL,
+		dataType: "json",
 		success: function(data) {
 
 			userCoordinates = new google.maps.LatLng(
@@ -38,6 +40,7 @@ function friendMap(access_token) {
 
 			$.ajax({
 				url: checkinsRecentURL,
+				dataType: "json",
 				success: function(data) {
 					drawMap('map',data.response.recent);
 
@@ -197,6 +200,8 @@ function drawPoints(data) {
 
 		//console.log(value);
 
+		if (value.va.x == value.vb.x || value.va.y == value.vb.y) return;
+
 		var startLocation = overlay.getProjection().fromContainerPixelToLatLng(value.va);
 		var endLocation = overlay.getProjection().fromContainerPixelToLatLng(value.vb);
 
@@ -226,14 +231,16 @@ function showPoint(marker) {
 
 	if (markerData && markerData.venue) {
 
-		
+		//console.log(markerData);
 
 		var date = new Date(markerData.createdAt*1000);
 
-		var infoTime = (date.toLocaleString());
+		var infoTime = (date.toLocaleDateString() + " " + date.getHours() + ":" + date.getMinutes());
 		var infoName = (markerData.user.firstName + " " + markerData.user.lastName);
 		var infoUserImage = markerData.user.photo.prefix + "100x100" + markerData.user.photo.suffix;
+		var infoUserURL = "//foursquare.com/user/" + markerData.user.id;
 		var infoVenu = (markerData.venue.name);
+		var infoVenuURL = markerData.venue.canonicalUrl;
 		var infoCoordinates = (markerData.venue.location.lat + ", " + markerData.venue.location.lng);
 		var infoAddressOne = (markerData.venue.location.address);
 		var infoAddressTwo = (markerData.venue.location.city + ", " + markerData.venue.location.state );
@@ -244,22 +251,37 @@ function showPoint(marker) {
 
 			.append($("<hr/>").css('clear', 'both'))
 
-			.append($("<img/>")
-				.css('float', 'left')
-				.css('margin-right', 8)
-				.attr({'src': infoUserImage, width: 100, height: 100}))
+			.append(
+				$("<div/>").attr('id', "who")
+				
+				.append(
+					$("<img/>")
+						.css('float', 'left')
+						.css('margin-right', 8)
+						.attr({'src': infoUserImage, width: 100, height: 100})
+				)
 
-			.append($("<label/>").text("Who"))
-			.append($("<span/>").text(infoName))
+				.append($("<label/>").text("Who"))
+				.append(
+					$("<a/>")
+						.attr('href',infoUserURL)
+						.attr('target', "_blank")					
+						.text(infoName)
+				)
 
-			.append($("<label/>").text("When"))
-			.append($("<span/>").text(infoTime))
+				.append($("<label/>").text("When"))
+				.append($("<span/>").text(infoTime))
 
-			.append($("<br/>"))
+			)
 			.append($("<hr/>").css('clear', 'both'))
 
 			.append($("<label/>").text("Where"))
-			.append($("<span/>").text(infoVenu))			
+			.append(
+				$("<a/>")
+					.attr('href',infoVenuURL)
+					.attr('target', "_blank")
+					.text(infoVenu)
+			)			
 
 			.append($("<label/>").text("Address"))
 			.append($("<span/>").text(infoAddressOne))
@@ -294,7 +316,7 @@ function showPoint(marker) {
 					"&fov=120&sensor=false")
 				.attr({width: 256, height: 120}))
 
-			.append($("<label/>").text("Coordinates"))
+			.append($("<label/>").attr('id','coordinates').text("Coordinates"))
 			.append(
 				$("<span/>").append(
 					$("<a/>")
@@ -302,7 +324,8 @@ function showPoint(marker) {
 							"?q=" + marker.position.lat() + "," + marker.position.lng())
 						.text(infoCoordinates)
 				)
-			);	
+			)
+			.append($("<br/>"));;	
 
 
 
@@ -310,13 +333,18 @@ function showPoint(marker) {
 
 	// Lookup Data
 
-	// var url = "//maps.googleapis.com/maps/api/geocode/json" +
-	// "?latlng=" + location.latitude + "," + location.longitude + 
-	// "&sensor=false"
-	// $.ajax({ url: url, success: function(data) {
-
-	// 	var html = (data.results[0].formatted_address).replace(",","<br/>");
-	// 	$("#informationAddress").html(html);
-	// }})
+	var url = "//maps.googleapis.com/maps/api/geocode/json" +
+	"?latlng=" + marker.position.lat() + "," + marker.position.lng() +
+	"&sensor=false"
+	$.ajax({ url: url, dataType: "json", success: function(data) {
+		var html = (data.results[0].formatted_address).replace(",","<br/>");
+		$("<label/>")
+			.attr('id','address')
+			.text("Address")
+			.insertBefore("#coordinates");
+		$("<span/>")
+			.html(html)
+			.insertBefore("#coordinates");
+	}})
 
 }

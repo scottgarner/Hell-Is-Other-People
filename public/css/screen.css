@@ -14,7 +14,7 @@ body {
     height:100%;    
     width: 100%;
 
-	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, sans-serif; 
 	font-weight: 300;
 	line-height: 1.4em;
 	background: #cfcfcf;
@@ -56,9 +56,10 @@ body {
 header {
 	height: 48px;
 	z-index: 90;
-	background: #222;
-   	box-shadow: 0px 3px 6px #000;
+	background: #111;
+   	box-shadow: 2px 2px 6px #000;
    	padding: 1px;
+   	border-bottom: 2px solid #666;
 }
 
 footer {
@@ -81,8 +82,10 @@ footer {
 		position: relative;
 		width: 100%;
 		box-shadow: none !important;		
-	}
+		border-radius: 0px;
+		border-bottom: 1px solid #ccc;
 
+	}
 }
 
 @media all and (min-width: 641px) {
@@ -111,13 +114,18 @@ footer {
 }
 
 
-#information label, #information span, #key p {
+#information label, #information span, #information a, #key p {
 	font-size: .9em;
 	display: block;
+	text-decoration: none;
 }
 
 #information label {
 	color: #666;
+}
+
+#information #who {
+	height: 100px;
 }
 
 #videoBox {

@@ -17,9 +17,8 @@ body {
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, sans-serif; 
 	font-weight: 300;
 	line-height: 1.4em;
-	background: #cfcfcf;
+	background: #222;
 	font-size: 11pt;
-	background: url('/images/background.jpg');
 	margin: 0;
 	padding: 0;
 }
@@ -34,7 +33,6 @@ body {
 	border-radius: 2px;
 	padding: 4px 12px;
 	background: #efefef;
-	background: url('/images/foreground.jpg');
 	box-shadow: 2px 2px 6px #000;
 	z-index: 100;
 }

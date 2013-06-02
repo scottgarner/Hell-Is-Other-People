@@ -3,6 +3,21 @@
 var userCoordinates;
 var mapData;
 
+$(document).ready( function() {
+
+	displayDialog();		
+});
+
+function displayDialog() {
+
+	$("#content").css({
+		top:'50%',
+		left:'50%',
+		margin:'-'+($("#content").height() / 2)+'px 0 0 -'+($("#content").width() / 2)+'px'
+	}).show();
+
+}
+
 function userMap() {
 
 	$.ajax({
@@ -235,7 +250,7 @@ function showPoint(marker) {
 
 		var date = new Date(markerData.createdAt*1000);
 
-		var infoTime = (date.toLocaleDateString() + " " + date.getHours() + ":" + date.getMinutes());
+		var infoTime = (date.toLocaleDateString() + " " + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2) );
 		var infoName = (markerData.user.firstName + " " + markerData.user.lastName);
 		var infoUserImage = markerData.user.photo.prefix + "100x100" + markerData.user.photo.suffix;
 		var infoUserURL = "//foursquare.com/user/" + markerData.user.id;

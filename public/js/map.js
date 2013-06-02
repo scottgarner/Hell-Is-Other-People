@@ -73,15 +73,15 @@ var styles = [
 	]
 
 },
-// {
-// 	"featureType": "administrative",
-// 	"elementType": "labels.text.fill",
-// 	"stylers": [
-// 	{ "visibility": "on" },
-// 	{ "color": "#5C6269" }
-// 	]
+{
+	"featureType": "administrative",
+	"elementType": "labels.text.fill",
+	"stylers": [
+	{ "visibility": "on" },
+	{ "color": "#5C6269" }
+	]
 
-// },
+},
 {
 	"featureType": "water",
 	"elementType": "labels.text.fill",

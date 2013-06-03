@@ -18,11 +18,10 @@ body {
 	line-height: 1.5em;
 	background: #222;
 	background-image: url('/images/background.jpg');	
-	font-size: 11pt;
+	font-size: 10.5pt;
 	margin: 0;
 	padding: 0;
 	color: 111;
-	font-size: 14px;
 }
 
 #content {
@@ -243,7 +242,7 @@ p.center {
 }
 
 p.small {
-	font-size: .8em;
+	font-size: .9em;
 }
 
 hr {

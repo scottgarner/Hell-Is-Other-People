@@ -111,7 +111,7 @@ app.get('/walk', function(req, response) {
 
 app.get('/json',function(req, res) {
   client.query(
-    "SELECT mod_time, location_lat, location_lng FROM people ORDER BY mod_time DESC LIMIT 10;",
+    "SELECT mod_time, location_lat, location_lng FROM people ORDER BY mod_time DESC LIMIT 20;",
     function selectCb(err, results, fields){
       if(err) { throw err; }
     

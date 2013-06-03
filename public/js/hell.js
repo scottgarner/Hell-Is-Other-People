@@ -256,7 +256,8 @@ function showPoint(marker) {
 		var date = new Date(markerData.createdAt*1000);
 
 		var infoTime = (date.toLocaleDateString() + " " + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2) );
-		var infoName = (markerData.user.firstName + " " + markerData.user.lastName);
+		var infoName = (markerData.user.lastName) ? markerData.user.firstName + " " + markerData.user.lastName : markerData.user.firstName;
+
 		var infoUserImage = markerData.user.photo.prefix + "100x100" + markerData.user.photo.suffix;
 		var infoUserURL = "//foursquare.com/user/" + markerData.user.id;
 		var infoVenu = (markerData.venue.name);
@@ -283,10 +284,12 @@ function showPoint(marker) {
 
 				.append($("<label/>").text("Who"))
 				.append(
-					$("<a/>")
-						.attr('href',infoUserURL)
-						.attr('target', "_blank")					
-						.text(infoName)
+					$("<span/>").append(
+						$("<a/>")
+							.attr('href',infoUserURL)
+							.attr('target', "_blank")					
+							.text(infoName)
+					)
 				)
 
 				.append($("<label/>").text("When"))
@@ -297,10 +300,12 @@ function showPoint(marker) {
 
 			.append($("<label/>").text("Where"))
 			.append(
-				$("<a/>")
-					.attr('href',infoVenuURL)
-					.attr('target', "_blank")
-					.text(infoVenu)
+				$("<span/>").append(
+					$("<a/>")
+						.attr('href',infoVenuURL)
+						.attr('target', "_blank")
+						.text(infoVenu)
+				)
 			)			
 
 			.append($("<label/>").text("Address"))
@@ -315,8 +320,7 @@ function showPoint(marker) {
 							"?q=" + marker.position.lat() + "," + marker.position.lng())
 						.text(infoCoordinates)
 				)
-			)
-			.append($("<br/>"));		
+			);		
 
 	} else {
 
@@ -344,10 +348,7 @@ function showPoint(marker) {
 							"?q=" + marker.position.lat() + "," + marker.position.lng())
 						.text(infoCoordinates)
 				)
-			)
-			.append($("<br/>"));;	
-
-
+			);	
 
 	}
 

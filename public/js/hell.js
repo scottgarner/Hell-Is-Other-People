@@ -5,7 +5,12 @@ var mapData;
 
 $(document).ready( function() {
 
-	displayDialog();		
+	displayDialog();	
+
+	/Mobile/.test(navigator.userAgent) && !location.hash && setTimeout(function () {
+	    if (!pageYOffset) window.scrollTo(0, 1);
+	}, 1000);
+
 });
 
 function displayDialog() {
@@ -13,7 +18,7 @@ function displayDialog() {
 	$("#content").css({
 		top:'50%',
 		left:'50%',
-		margin:'-'+($("#content").height() / 2)+'px 0 0 -'+($("#content").width() / 2)+'px'
+		margin:'-'+($("#content").outerHeight() / 2)+'px 0 0 -'+($("#content").outerWidth() / 2)+'px'
 	}).show();
 
 }

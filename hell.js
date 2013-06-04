@@ -7,6 +7,8 @@ var FoursquareStrategy = require('passport-foursquare').Strategy;
 var FOURSQUARE_CLIENT_ID = process.env.FOURSQUARE_CLIENT_ID;
 var FOURSQUARE_CLIENT_SECRET = process.env.FOURSQUARE_CLIENT_SECRET;
 
+var sessionSecret = process.env.SESSION_SECRET;
+
 var port = process.env.PORT;
 var connectionString = process.env.DATABASE_URL;
 var callbackURL = process.env.REDIRECT_URL;
@@ -57,7 +59,7 @@ app.configure(function() {
   app.use(express.cookieParser());
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(express.session({secret: "s4cr3t4g3nt"}));
+  app.use(express.session({secret: sessionSecret}));
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(app.router);

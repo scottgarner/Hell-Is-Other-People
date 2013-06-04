@@ -7,9 +7,9 @@ var FoursquareStrategy = require('passport-foursquare').Strategy;
 var FOURSQUARE_CLIENT_ID = process.env.FOURSQUARE_CLIENT_ID;
 var FOURSQUARE_CLIENT_SECRET = process.env.FOURSQUARE_CLIENT_SECRET;
 
-var port = process.env.PORT || 5000;
-var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/hell'
-var callbackURL = process.env.REDIRECT_URL || "http://localhost:5000/redirect/";
+var port = process.env.PORT;
+var connectionString = process.env.DATABASE_URL;
+var callbackURL = process.env.REDIRECT_URL;
 
 // Passport
 ///////////

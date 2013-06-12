@@ -88,8 +88,8 @@ app.get('/privacy', function(req, response) {
   response.render('privacy');
 });
 
-app.get('/about', function(req, response) {
-  response.render('about');
+app.get('/video', function(req, response) {
+  response.render('video');
 });
 
 app.get('/friends', ensureAuthenticated, function(req, response) {

@@ -105,7 +105,7 @@ var styles = [
 var siteCircle = {
 	path: google.maps.SymbolPath.CIRCLE,
 	fillOpacity: 1.0,
-	fillColor: "#ff862f",
+	fillColor: "#ff9431",
 	strokeWeight: 0.0,
 	scale: 5.0
 };

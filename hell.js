@@ -111,9 +111,15 @@ app.get('/walk', function(req, response) {
 // Data
 ///////
 
+//      new google.maps.LatLng(40.881989,-74.047852),
+//      new google.maps.LatLng(40.682949, -73.906693)
+
 app.get('/json',function(req, res) {
   client.query(
-    "SELECT mod_time, location_lat, location_lng FROM people ORDER BY mod_time DESC LIMIT 20;",
+    "SELECT mod_time, location_lat, location_lng FROM people " +
+    "WHERE (location_lat > 40.682949) AND (location_lat < 40.881989)  " + 
+    "AND (location_lng > -74.047852) AND (location_lng < -73.906693) " +
+    "ORDER BY mod_time DESC LIMIT 20;",
     function selectCb(err, results, fields){
       if(err) { throw err; }
     

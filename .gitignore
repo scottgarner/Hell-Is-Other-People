@@ -6,3 +6,5 @@ public/js/walk.js
 public/json/
 public/video/
 views/walk.html
+
+node_modules
